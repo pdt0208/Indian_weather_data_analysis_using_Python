@@ -1,0 +1,129 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+df = pd.read_csv('IndianWeatherRepository.csv')
+
+df.to_string
+
+df.head()
+
+df.drop(['country'], axis=1, inplace=True)
+
+df
+
+df.drop(['last_updated_epoch'], axis=1, inplace=True)
+
+df
+
+ df.drop(['Unnamed: 43'], axis=1, inplace=True)
+
+df
+
+df1 = df.copy()
+
+df1.loc[:, "longitude"]= df1["longitude"].map('{:.1f}'.format)
+
+
+df1
+
+df2=df1.copy()
+df2.loc[:, "latitude"]= df1["latitude"].map('{:.1f}'.format)
+
+df2
+
+df2.head(5)
+
+df2_mean=df2.groupby(['region'])['temperature_celsius', 'temperature_fahrenheit','air_quality_PM10','air_quality_us-epa-index','air_quality_gb-defra-index'].mean()
+
+df2_mean
+
+Top_10_mean=df2_mean.nlargest(n=10, columns=[ 'temperature_celsius', 'temperature_fahrenheit'])
+
+
+Top_10_mean
+
+df2_median
+
+
+
+
+=df2.groupby(['region'])['temperature_celsius', 'temperature_fahrenheit','air_quality_PM10','air_quality_us-epa-index','air_quality_gb-defra-index'].median()
+
+Top_10_median=df2_median.nlargest(n=10, columns=[ 'temperature_celsius', 'temperature_fahrenheit'])
+
+Top_10_median
+
+df2_max=df2.groupby(['region'])['temperature_celsius', 'temperature_fahrenheit','air_quality_PM10','air_quality_us-epa-index','air_quality_gb-defra-index'].max()
+
+Top_10_max=df2_median.nlargest(n=10, columns=[ 'temperature_celsius', 'temperature_fahrenheit'])
+
+df2_min=df2.groupby(['region'])['temperature_celsius', 'temperature_fahrenheit','air_quality_PM10','air_quality_us-epa-index','air_quality_gb-defra-index'].min()
+
+df2_min
+
+Top_10_max
+
+Top_10_min=df2_min.nlargest(n=10, columns=[ 'temperature_celsius', 'temperature_fahrenheit'])
+
+Top_10_min
+
+plt.figure(figsize = (10, 5))
+sns.lineplot(x="region", y="temperature_fahrenheit", data=Top_10_mean, linewidth=1.0, label= 'Mean')
+sns.lineplot(x="region",y="temperature_fahrenheit",data=Top_10_median, linewidth=1.0, label='Median')
+sns.set_style("dark")
+plt.show()
+
+
+plt.figure(figsize=(10,5))
+sns.lineplot(x="region",y="temperature_fahrenheit",data=Top_10_max, linewidth=1.0, label='Max',color='Black')
+
+sns.set_style("white")
+plt.show()
+
+plt.figure(figsize=(18.5,6.5))
+sns.lineplot(x="region",y="temperature_fahrenheit",data=Top_10_min, linewidth=1.0, label='Min',color='Blue')
+sns.set_style("white")
+plt.show()
+
+plt.figure(figsize=(18.5,6.5))
+sns.lineplot(x="region", y="temperature_celsius", data=Top_10_mean, linewidth=1.0, label= 'Mean')
+sns.lineplot(x="region", y="temperature_celsius", data=Top_10_median, linewidth=1.0, label= 'Median')
+sns.set_style("dark")
+plt.show()
+
+plt.figure(figsize=(18.5,6.5))
+sns.lineplot(x="region", y="temperature_celsius", data=Top_10_max, linewidth=1.0, label= 'Max')
+sns.lineplot(x="region", y="temperature_fahrenheit", data=Top_10_max, linewidth=1.0, label= 'Max')
+sns.set_style("dark")
+plt.show()
+
+df.to_string
+
+plt.figure(figsize=(25,18.5))
+sns.barplot(data=df2, x='condition_text', y='temperature_celsius')
+plt.show()
+
+df2_sunrise=df2 ['sunrise'].str.replace('AM','')
+
+
+df2_sunset=df2 ['sunset'].str.replace('PM','')
+df2_moonrise=df2 ['moonrise'].str.replace('PM','')
+df2_moonset=df2 ['moonset'].str.replace('AM','')
+
+df2_sunset
+
+Top_10_sunrise=df2_sunrise.head(10)
+Top_10_sunset=df2_sunset.head(10)
+Top_10_moonrise=df2_moonrise.head(10)
+Top_10_moonset=df2_moonset.head(10)
+
+
+Top_10_sunset
+
+Top_10_sunrise
+
+Top_10_moonrise
+
+Top_10_moonset
+
